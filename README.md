@@ -33,7 +33,7 @@ This role only create the HTTP Content Routing Policy, which need Server Pool to
 Example Playbook
 ----------------
 
-Check [test/test.yml](test/test.yml).
+Check [tests/test.yml](tests/test.yml).
 
 License
 -------
@@ -43,4 +43,4 @@ MIT License.
 Author Information
 ------------------
 
-[ndkprd.com](ndkprd.com)
+[ndkprd.com](https://ndkprd.com)
