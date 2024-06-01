@@ -4,7 +4,8 @@ fwb_api_base_url: "https://{{ ansible_host }}/api/v2.0"
 
 fwb_api_endpoint:
   http_content_routing_policy: "{{ fwb_api_base_url }}/cmdb/server-policy/http-content-routing-policy?mkey=%s"
-  http_content_routing_policy_matchlist: "{{ fwb_api_base_url }}/server/httpcontentrouting.matchlist?mkey=%s&sub_mkey=%s"
+  http_content_routing_policy_matchlist: "{{ fwb_api_base_url }}/server/httpcontentrouting.matchlist?mkey=%s"
+  http_content_routing_policy_matchlist_put: "{{ fwb_api_base_url }}/server/httpcontentrouting.matchlist?mkey=%s&sub_mkey=%s"
 
 
 fwb_api_token_raw: |
