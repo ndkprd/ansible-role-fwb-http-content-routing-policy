@@ -1,0 +1,76 @@
+---
+
+- name: Get the current FortiWeb HTTP Content Routing Policy values for {{ fwb_http_content_routing_policy.name }}
+  ansible.builtin.uri:
+    method: GET
+    url: "{{ fwb_api_endpoint.http_content_routing_policy | format(fwb_http_content_routing_policy.name) }}"
+    validate_certs: "false"
+    return_content: "true"
+    status_code: [200, 500]
+    headers:
+      'Authorization': '{{ fwb_api_token }}'
+  register: fwb_http_content_routing_policy_get_result
+  failed_when: fwb_http_content_routing_policy_get_result.json.errcode is defined
+  tags: [fwb_http_content_routing_policy]
+
+- name: Add new FortiWeb HTTP Content Routing Policy if entry not exist for {{ fwb_http_content_routing_policy.name }}
+  ansible.builtin.uri:
+    method: POST
+    url: "{{ fwb_api_endpoint.http_content_routing_policy | format(fwb_http_content_routing_policy.name) }}"
+    body_format: "json"
+    validate_certs: "false"
+    return_content: "true"
+    status_code: [200]
+    headers:
+      'Authorization': '{{ fwb_api_token }}'
+      'Content-Type': 'application/json'
+    body: |
+      {
+        "data":
+        {
+          "name": "{{ fwb_http_content_routing_policy.name }}",
+          "server-pool": "{{ fwb_http_content_routing_policy.server_pool }}",
+          "comment": "{{ fwb_http_content_routing_policy.comment }}"
+        }
+      }
+  register: fwb_http_content_routing_policy_post_result
+  when: fwb_http_content_routing_policy_get_result.status == 500
+  changed_when: fwb_http_content_routing_policy_post_result.status == 200
+  failed_when: fwb_http_content_routing_policy_post_result.json.errcode is defined
+  tags: [fwb_http_content_routing_policy]
+
+
+- name: Update FortiWeb HTTP Content Routing Policy if entry exist and something is changed for {{ fwb_http_content_routing_policy.name }}
+  ansible.builtin.uri:
+    method: PUT
+    url: "{{ fwb_api_endpoint.http_content_routing_policy | format(fwb_http_content_routing_policy.name) }}"
+    body_format: "json"
+    validate_certs: "false"
+    return_content: "true"
+    status_code: [200]
+    headers:
+      'Authorization': '{{ fwb_api_token }}'
+      'Content-Type': 'application/json'
+    body: |
+      {
+        "data":
+        {
+          "name": "{{ fwb_http_content_routing_policy.name }}",
+          "server-pool": "{{ fwb_http_content_routing_policy.server_pool }}"
+        }
+      }
+  register: fwb_http_content_routing_policy_put_result
+  when:
+    - fwb_http_content_routing_policy_post_result is not changed
+    - fwb_http_content_routing_policy_get_result.json.results['server-pool'] != fwb_http_content_routing_policy.server_pool
+  changed_when: fwb_http_content_routing_policy_put_result.status == 200
+  failed_when: fwb_http_content_routing_policy_put_result.json.errcode is defined
+  tags: [fwb_http_content_routing_policy]
+
+- name: Add/update FortiWeb HTTP Content Routing Policy Matchlist for {{ fwb_http_content_routing_policy.name }}
+  ansible.builtin.include_tasks: fwb_http_content_routing_policy_matchlist.yml
+  tags: [fwb_http_content_routing_policy]
+  loop: "{{ fwb_http_content_routing_policy.http_content_routing_matchlist }}"
+  loop_control:
+    loop_var: http_content_routing_matchlist
+    label: "{{ http_content_routing_matchlist.id }}"

@@ -1,0 +1,19 @@
+---
+
+- name: Update/create FortiWeb resources.
+  hosts: all
+  become: false
+  gather_facts: false
+  connection: local
+  vars:
+    fwb_http_content_routing_policies:
+      - name: "HTTP-CR_APP-NDKPRD-COM_01"
+        server_pool: "SERVER-POOL_APP-NDKPRD-COM_01"
+        http_content_routing_matchlist:
+          - id: "0"
+            match_object: "http-host"
+            match_condition: "match-begin"
+            match_expression: "app.ndkprd.com"
+            concatenate: "and"
+  roles:
+    - ../..

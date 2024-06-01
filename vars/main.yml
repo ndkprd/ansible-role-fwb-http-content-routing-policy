@@ -1,0 +1,27 @@
+---
+
+fwb_api_base_url: "https://{{ ansible_host }}/api/v2.0"
+
+fwb_api_endpoint:
+  http_content_routing_policy: "{{ fwb_api_base_url }}/cmdb/server-policy/http-content-routing-policy?mkey=%s"
+  http_content_routing_policy_matchlist: "{{ fwb_api_base_url }}/server/httpcontentrouting.matchlist?mkey=%s&sub_mkey=%s"
+
+
+fwb_api_token_raw: |
+  {
+  "username": "{{ ansible_user }}",
+  "password": "{{ ansible_password }}",
+  "vdom": "{{ fwb_vdom }}"
+  }
+
+fwb_api_token: "{{ fwb_api_token_raw | b64encode }}"
+
+fwb_api_headers:
+  'Authorization': '{{ fwb_api_token }}'
+  'Content-Type': 'application/json'
+
+fwb_api_uri_params:
+  body_format: json
+  validate_certs: false
+  return_content: true
+  status_code: 200

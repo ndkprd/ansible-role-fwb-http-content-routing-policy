@@ -1,0 +1,2 @@
+[fortiwebs]
+fwb-01.development.ndkprd.com ansible_host=fwb-01.ndkprd.com ansible_user="ansible" ansible_password="ansible1234" fwb_vdom="development"

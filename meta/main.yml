@@ -1,0 +1,10 @@
+---
+
+galaxy_info:
+  author: ndkprd
+  role_name: fwb_http_content_routing_policy
+  description: Ansible role to manage Fortinet's FortiWeb HTTP Content Routing Policy via REST API.
+  license: MIT
+  min_ansible_version: "2.12"
+  galaxy_tags: [fortinet, fortiweb, waf]
+dependencies: []

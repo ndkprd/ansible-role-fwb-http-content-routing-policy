@@ -1,0 +1,8 @@
+---
+
+- name: Add/update FortiWeb HTTP Content Routing Policies.
+  ansible.builtin.include_tasks: fwb_http_content_routing_policy.yml
+  loop: "{{ fwb_http_content_routing_policies }}"
+  loop_control:
+    loop_var: fwb_http_content_routing_policy
+    label: "{{ fwb_http_content_routing_policy.name }}"
