@@ -29,8 +29,7 @@
         "data":
         {
           "name": "{{ fwb_http_content_routing_policy.name }}",
-          "server-pool": "{{ fwb_http_content_routing_policy.server_pool }}",
-          "comment": "{{ fwb_http_content_routing_policy.comment }}"
+          "server-pool": "{{ fwb_http_content_routing_policy.server_pool }}"
         }
       }
   register: fwb_http_content_routing_policy_post_result

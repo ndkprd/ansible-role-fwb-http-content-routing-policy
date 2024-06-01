@@ -35,6 +35,13 @@ Example Playbook
 
 Check [tests folder](tests/).
 
+Limitations
+-----------
+
+I don't find any way to get the value of HTTP Content Routing Policy matchlist, so the best I could do to implement somekind of idempotency is to compare the count of existing matchlist in the FortiWeb with the number of matchlist in the variable.
+
+Also, since I couldn't check their value, I can't also find a good way to see if the value has changed or not, so for now the task result return will be always "ok" whether the value has changed or not.
+
 License
 -------
 

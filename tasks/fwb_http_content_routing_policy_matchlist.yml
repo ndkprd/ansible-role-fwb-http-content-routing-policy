@@ -1,5 +1,18 @@
 ---
 
+- name: Get the current FortiWeb HTTP Content Routing Policy values for {{ fwb_http_content_routing_policy.name }}
+  ansible.builtin.uri:
+    method: GET
+    url: "{{ fwb_api_endpoint.http_content_routing_policy | format(fwb_http_content_routing_policy.name) }}"
+    validate_certs: "false"
+    return_content: "true"
+    status_code: [200, 500]
+    headers:
+      'Authorization': '{{ fwb_api_token }}'
+  register: fwb_http_content_routing_policy_get_result
+  failed_when: fwb_http_content_routing_policy_get_result.json.errcode is defined
+  tags: [fwb_http_content_routing_policy]
+
 - name: Add new FortiWeb HTTP Content Routing Policy Matchlist for {{ fwb_http_content_routing_policy.name + ' - ' + http_content_routing_matchlist.id }}
   ansible.builtin.uri:
     method: POST
@@ -19,7 +32,7 @@
   register: fwb_http_content_routing_policy_matchlist_post_result
   # only add new match list if there's no match list yet
   when:
-    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] == 0
+    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] != fwb_http_content_routing_policy.http_content_routing_matchlist | length
   changed_when: fwb_http_content_routing_policy_matchlist_post_result.status == 200
   failed_when: fwb_http_content_routing_policy_matchlist_post_result.json.errcode is defined
   tags: [fwb_http_content_routing_policy_matchlist]
@@ -42,7 +55,7 @@
       concatenate={{ http_content_routing_matchlist.concatenate }}"
   register: fwb_http_content_routing_policy_matchlist_put_result
   when:
-    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] != 0
+    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] == fwb_http_content_routing_policy.http_content_routing_matchlist | length
   # changed_when: fwb_http_content_routing_policy_matchlist_put_result.status == 200
   failed_when: fwb_http_content_routing_policy_matchlist_put_result.json.errcode is defined
   tags: [fwb_http_content_routing_policy_matchlist]
