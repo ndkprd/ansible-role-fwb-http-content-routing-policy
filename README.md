@@ -33,7 +33,7 @@ This role only create the HTTP Content Routing Policy, which need Server Pool to
 Example Playbook
 ----------------
 
-Check [tests folder](tests/README.md).
+Check [tests folder](tests/).
 
 License
 -------
