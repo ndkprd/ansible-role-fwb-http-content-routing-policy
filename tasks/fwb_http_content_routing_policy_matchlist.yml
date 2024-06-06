@@ -32,7 +32,8 @@
   register: fwb_http_content_routing_policy_matchlist_post_result
   # only add new match list if there's no match list yet
   when:
-    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] < fwb_http_content_routing_policy.http_content_routing_matchlist | length
+    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] <
+      fwb_http_content_routing_policy.http_content_routing_matchlist | length
   changed_when: fwb_http_content_routing_policy_matchlist_post_result.status == 200
   failed_when: fwb_http_content_routing_policy_matchlist_post_result.json.errcode is defined
   tags: [fwb_http_content_routing_policy_matchlist]
@@ -55,7 +56,8 @@
       concatenate={{ http_content_routing_matchlist.concatenate }}"
   register: fwb_http_content_routing_policy_matchlist_put_result
   when:
-    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] == fwb_http_content_routing_policy.http_content_routing_matchlist | length
+    - fwb_http_content_routing_policy_get_result.json.results['sz_content-routing-match-list'] ==
+      fwb_http_content_routing_policy.http_content_routing_matchlist | length
   # changed_when: fwb_http_content_routing_policy_matchlist_put_result.status == 200
   failed_when: fwb_http_content_routing_policy_matchlist_put_result.json.errcode is defined
   tags: [fwb_http_content_routing_policy_matchlist]
